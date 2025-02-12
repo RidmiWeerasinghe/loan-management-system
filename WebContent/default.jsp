@@ -133,7 +133,7 @@ body {
 </head>
 <body>
 	<div class="header">
-		<h1>Welcome to the Loan Management System</h1>
+		<h1>Loan Management System</h1>
 		<p>Your one-stop solution for managing loans efficiently</p>
 	</div>
 	<div class="content">

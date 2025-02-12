@@ -13,7 +13,12 @@
 @import
 	url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap')
 	;
-
+body {
+	font-family: 'Poppins', sans-serif;
+	background-color: #f4f4f4;
+	margin: 40px;
+	padding: 0;
+}
 .home-content {
 	padding: 20px;
 	background-color: #f4f4f4;

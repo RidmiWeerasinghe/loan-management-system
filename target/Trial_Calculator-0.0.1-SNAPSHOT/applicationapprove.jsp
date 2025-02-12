@@ -19,7 +19,7 @@
 body {
 	font-family: 'Poppins', sans-serif;
 	background-color: #f4f4f4;
-	margin: 0;
+	margin:20px;
 	padding: 0;
 }
 
@@ -39,7 +39,7 @@ body {
 }
 
 .form-group {
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -79,8 +79,8 @@ body {
 	text-align: left; /* Align text to the left */
 }
 
-select, .select-group input {
-	width: 97%;
+select {
+	width: 100%;
 	padding: 8px; /* Adjusted padding for select boxes */
 	font-size: 14px;
 	border: 1px solid #ccc;
@@ -128,6 +128,7 @@ select, .select-group input {
 .table-container table {
 	width: 100%;
 	border-collapse: collapse;
+	font-size: 12px;
 }
 
 .table-container table th, table td {
@@ -197,13 +198,17 @@ select, .select-group input {
 				if (this.status === 200) {
 					try {
 						const response = JSON.parse(this.responseText);
-						
+
 						if (response.result.error) {
 							alert(response.result.error);
 						}
 
 						if (response.result.applications) {
 							setTableData(response.result.applications);
+						} else {
+							const tbody = document
+									.getElementById('tableContainer');
+							tbody.innerHTML = "<div style='color: red; text-align: center; font-weight: bold;'>No pending applications are currently available.</div>";
 						}
 					} catch (e) {
 						console.error('Invalid response:', e);
@@ -301,7 +306,7 @@ select, .select-group input {
 	}
 
 	function getApplication(event) {
-		
+
 		const clickedRow = event.currentTarget;
 		const cells = clickedRow.children;
 
@@ -329,7 +334,7 @@ select, .select-group input {
 				if (this.status === 200) {
 					try {
 						const response = JSON.parse(this.responseText);
-						
+
 						if (response.result.error) {
 							alert(response.result.error);
 						}
@@ -364,7 +369,7 @@ select, .select-group input {
 				if (this.status === 200) {
 					try {
 						const response = JSON.parse(this.responseText);
-						
+
 						if (response.result.error) {
 							alert(response.result.error);
 						}
@@ -400,7 +405,7 @@ select, .select-group input {
 				if (this.status === 200) {
 					try {
 						const response = JSON.parse(this.responseText);
-						
+
 						if (response.result.error) {
 							alert(response.result.error);
 						}
@@ -453,14 +458,14 @@ select, .select-group input {
 						if (this.status === 200) {
 							try {
 								const response = JSON.parse(this.responseText);
-								
+
 								if (response.result.error) {
 									alert(response.result.error);
 								}
 
 								if (response.result.success === true) {
 									alert(response.result.successmsg);
-									 clearInputFields();
+									clearInputFields();
 									getAllPendingApplications();
 								}
 							} catch (e) {
@@ -482,17 +487,18 @@ select, .select-group input {
 				xhttp.setRequestHeader("Content-Type",
 						"application/x-www-form-urlencoded");
 				const data = "loanApplication.applicationId=" + applicationId
-						+ "&loanApplication.applicationStatus=" + applicationStatus
-						+ "&loanApplication.createdUserId=" + currentUserId;
+						+ "&loanApplication.applicationStatus="
+						+ applicationStatus + "&loanApplication.createdUserId="
+						+ currentUserId;
 				xhttp.send(data);
-			}else {
+			} else {
 				alert("Can not update status as 'Pending' ");
-			}			
+			}
 		} else {
 			alert("Select an application");
 		}
 	}
-	
+
 	function clearInputFields() {
 		document.getElementById('stakeholderId').value = "";
 		document.getElementById('trialCalculationId').value = "";
@@ -514,13 +520,13 @@ select, .select-group input {
 						<label>Stakeholder ID</label> <input type="text"
 							id="stakeholderId" name="stakeholderId" required readonly
 							onclick="clearErrorMessages('stakeholderId-error')">
-						<p id="stakeholderId-error" class="validationerror"></p>
+						<div id="stakeholderId-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Stakeholder Name</label> <input type="text"
 							id="stakeholderName" name="stakeholderName" required readonly
 							onclick="clearErrorMessages('stakeholderName-error')">
-						<p id="stakeholderId-error" class="validationerror"></p>
+						<div id="stakeholderId-error" class="validationerror"></div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -528,14 +534,14 @@ select, .select-group input {
 						<label>Trial Calculation ID</label> <input type="text"
 							id="trialCalculationId" name="trialCalculationId" required
 							readonly onclick="clearErrorMessages('trialCalculationId-error')">
-						<p id="trialCalculationId-error" class="validationerror"></p>
+						<div id="trialCalculationId-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Trial Calculation Number</label> <input type="text"
 							id="trialCalculationNumber" name="trialCalculationNumber"
 							required readonly
 							onclick="clearErrorMessages('trialCalculationNumber-error')">
-						<p id="trialCalculationNumber-error" class="validationerror"></p>
+						<div id="trialCalculationNumber-error" class="validationerror"></div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -549,14 +555,14 @@ select, .select-group input {
 							<option value="R">Reject</option>
 							<!-- <option value="C">Cancelled</option> -->
 						</select>
-						<p id="applicationStatus-error" class="validationerror"></p>
+						<div id="applicationStatus-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Application Number</label> <input type="text"
 							id="applicationNumber" name="applicationNumber" readonly
 							onclick="clearErrorMessages('applicationNumber-error')">
 						<input type="hidden" id="applicationId" name="applicationNumber">
-						<p id="applicationNumber-error" class="validationerror"></p>
+						<div id="applicationNumber-error" class="validationerror"></div>
 					</div>
 				</div>
 
@@ -567,32 +573,33 @@ select, .select-group input {
 				</div>
 			</form>
 		</div>
-		<div class="search-container">
-			<h3>Pending Applications</h3>
-			<div class="search-box">
-				<input type="text" id="searchInput"
-					placeholder="Search by Stakeholder ID">
-				<button onclick="filterTable('usertbl', 'searchInput')">
-					<i class='bx bx-search'></i>
-				</button>
+		<div id="tableContainer">
+			<div class="search-container">
+				<h3>Pending Applications</h3>
+				<div class="search-box">
+					<input type="text" id="searchInput"
+						placeholder="Search by Stakeholder ID">
+					<button onclick="filterTable('usertbl', 'searchInput')">
+						<i class='bx bx-search'></i>
+					</button>
+				</div>
+			</div>
+			<div class="table-container">
+				<table id="stakeholertbl">
+					<thead>
+						<tr>
+							<th>Application Id</th>
+							<th>Application Status</th>
+							<th>Stakeholder Name</th>
+							<th>Application Number</th>
+							<th>Trial Calculation Number</th>
+						</tr>
+					</thead>
+					<tbody id="tbody">
+
+					</tbody>
+				</table>
 			</div>
 		</div>
-		<div class="table-container">
-			<table id="stakeholertbl">
-				<thead>
-					<tr>
-						<th>Application Id</th>
-						<th>Application Status</th>
-						<th>Stakeholder Name</th>
-						<th>Application Number</th>
-						<th>Trial Calculation Number</th>
-					</tr>
-				</thead>
-				<tbody id="tbody">
-
-				</tbody>
-			</table>
-		</div>
-	</div>
 </body>
 </html>

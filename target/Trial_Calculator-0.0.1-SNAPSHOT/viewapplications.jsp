@@ -19,7 +19,7 @@
 body {
 	font-family: 'Poppins', sans-serif;
 	background-color: #f4f4f4;
-	margin: 0;
+	margin: 20px;
 	padding: 0;
 }
 
@@ -140,6 +140,22 @@ body {
 	background-color: #f9f9f9; /* Light background for labels */
 	font-weight: bold;
 }
+
+.modal-btn {
+	margin-top: 20px;
+	padding: 10px 20px;
+	background: #439c47;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 90px;
+}
+
+.modal-btn-div {
+	display: flex;
+	justify-content: flex-end;
+}
 </style>
 <script>
 	function getAllApplications() {
@@ -156,6 +172,10 @@ body {
 
 						if (response.result.allapplications) {
 							setTableData(response.result.allapplications);
+						}
+						else{
+							const tbody = document.getElementById('home-content');
+							tbody.innerHTML = "<div style='color: red; text-align: center; font-weight: bold;'>No applications are currently available.</div>";
 						}
 					} catch (e) {
 						console.error('Invalid response:', e);
@@ -176,7 +196,17 @@ body {
 				"application/x-www-form-urlencoded");
 		xhttp.send();
 	}
+	 function formatNumber(value) {
+			if (!isNaN(value)) {
 
+				return parseFloat(value).toLocaleString(undefined, {
+					minimumFractionDigits: 2,
+					maximumFractionDigits: 2,
+				});
+			}
+			return value;
+		}
+	 
 	function setTableData(applications) {
 		const tbody = document.getElementById('tbody');
 		tbody.innerHTML = "";
@@ -242,13 +272,13 @@ body {
 													+ "</td><td>"
 													+ trialCalculationNumber
 													+ "</td><td style='display: none;'>"
-													+ capitalAmount
+													+ formatNumber(capitalAmount)
 													+ "</td><td style='display: none;'>"
-													+ interestRate
+													+ formatNumber(interestRate)
 													+ "</td><td style='display: none;'>"
 													+ noOfMonth
 													+ "</td><td style='display: none;'>"
-													+ emi
+													+ formatNumber(emi)
 													+ "</td><td style='display: none;'>"
 													+ trialCalTimestamp
 													+ "</td><td style='display: none;'>"
@@ -471,16 +501,52 @@ body {
 				+ trialCalculationId;
 		xhttp.send(data);
 	}
+	
+	function printApplication(divId){
+		 var divContent = document.getElementById(divId);
+		 var tblTopic = document.getElementById('tblTopic').textContent;
+
+		    if (!divContent) {
+		        alert("Content not found!");
+		        return;
+		    }
+
+		    // Open a new window
+		    var printWindow = window.open("", "_blank");
+
+		    // Write the content into the new window
+		    printWindow.document.write(
+		        '<!DOCTYPE html>' +
+		        '<html>' +
+		        '<head>' +
+		        '<title>Print Report</title>' +
+		        '<style>' +
+		        '#applicationDetails {width: 100%;border-collapse: collapse;margin-top: 10px;}'+
+		        '#applicationDetails td {padding: 8px 10px;border: 1px solid #ddd;}'+
+		        '#applicationDetails td:first-child {background-color: #f9f9f9;font-weight: bold;}'+
+		        '</style>' +
+		        '</head>' +
+		        '<body>' +
+		        '<h2>'+ tblTopic +'</h2>'+
+		        divContent.innerHTML + // Include the content of the div
+		        '</body>' +
+		        '</html>'
+		    );
+
+		    printWindow.document.close(); // Close the document stream
+
+		    // Automatically print the report
+		    printWindow.print();
+	}
 </script>
 </head>
 <body onload="getAllApplications()">
-	<div class="home-content">
+	<div id="home-content" class="home-content">
 		<h2>All Applications</h2>
 
 		<div class="search-container">
 			<div class="search-box">
-				<input type="text" id="searchInput"
-					placeholder="Application number">
+				<input type="text" id="searchInput" placeholder="Application number">
 				<button onclick="filterTable('applicationtbl', 'searchInput')">
 					<i class='bx bx-search'></i>
 				</button>
@@ -506,12 +572,19 @@ body {
 		<div class="modal-content">
 			<span class="close-button" onclick="closeModal()">&times;</span>
 			<h3 id="tblTopic">Application No : 0001</h3>
-			<div class="schedule-container">
+			<div class="schedule-container" id="applicationDetails-div">
 				<table id="applicationDetails">
 					<tbody id="applicationTblBody">
 						<!-- Dynamic rows will go here -->
 					</tbody>
 				</table>
+			</div>
+			<div class="modal-btn-div">
+				<button class="modal-btn" type="button"
+					onclick="printApplication('applicationDetails-div')"
+					id="btn-submit">
+					<i class='bx bx-printer'></i>&nbsp;&nbsp;Print
+				</button>
 			</div>
 		</div>
 	</div>

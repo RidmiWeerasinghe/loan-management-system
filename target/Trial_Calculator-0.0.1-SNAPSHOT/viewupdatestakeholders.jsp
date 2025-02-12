@@ -101,6 +101,7 @@ select, .select-group input {
 table {
 	width: 100%;
 	border-collapse: collapse;
+	font-size: 12px;
 }
 
 table th, table td {

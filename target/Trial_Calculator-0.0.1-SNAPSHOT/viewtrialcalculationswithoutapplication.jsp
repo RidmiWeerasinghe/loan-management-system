@@ -17,7 +17,7 @@
 
 body {
 	font-family: 'Poppins', sans-serif;
-	font-size: 14px;
+	font-size: 11px;
 }
 
 table {
@@ -27,7 +27,7 @@ table {
 
 table th, table td {
 	text-align: left;
-	padding: 10px;
+	padding: 5px;
 	border: 1px solid #ddd;
 }
 
@@ -74,7 +74,7 @@ table tr:hover {
 }
 </style>
 <script>
-	// JavaScript function to load stakeholders in a small window
+	// load stakeholders in a small window
 	function getAllTrialCalculationsWithoutApplication() {
 		const stakeholderName = window.opener.document
 				.getElementById('stakeholderName').value;
@@ -98,6 +98,10 @@ table tr:hover {
 
 						if (response.result.trialCalculations) {
 							setTableData(response.result.trialCalculations);
+						}
+						else{
+							const tbody = document.getElementById('body');
+							tbody.innerHTML = "<div style='color: red; text-align: center; font-weight: bold;'>No trial calculations are currently available.</div>";
 						}
 					} catch (e) {
 						console.error('Invalid response:', e);
@@ -169,7 +173,7 @@ table tr:hover {
 	}
 </script>
 </head>
-<body onload="getAllTrialCalculationsWithoutApplication()">
+<body id="body" onload="getAllTrialCalculationsWithoutApplication()">
 	<div class="search-container">
 		<h4 id="stkName"></h4>
 		<h3>Trial Calculations</h3>

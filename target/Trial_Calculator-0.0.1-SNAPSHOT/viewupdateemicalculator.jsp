@@ -19,7 +19,7 @@
 body {
 	font-family: 'Poppins', sans-serif;
 	background-color: #f4f4f4;
-	margin: 100px;
+	margin: 40px;
 	padding: 0;
 }
 
@@ -39,7 +39,7 @@ body {
 }
 
 .form-group {
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -115,6 +115,7 @@ body {
 .table-container table {
 	width: 100%;
 	border-collapse: collapse;
+	font-size: 12px;
 }
 
 .table-container table th, table td {
@@ -218,6 +219,21 @@ body {
 	color: black;
 	text-decoration: none;
 }
+.modal-btn {
+	margin-top: 20px;
+	padding: 10px 20px;
+	background: #439c47;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 90px;
+}
+
+.modal-btn-div {
+	display: flex;
+	justify-content: flex-end;
+}
 </style>
 <script>
 	// JavaScript function to load stakeholders in a small window
@@ -233,7 +249,6 @@ body {
 
 	function openModal() {
 		document.getElementById("scheduleModal").style.display = "block";
-		generateSchedule();
 	}
 
 	function closeModal() {
@@ -292,10 +307,10 @@ body {
 					+ trialCalculations[i].trialCalculationNumber + "</td><td>"
 					+ trialCalculations[i].stakeholderId + "</td><td>"
 					+ trialCalculations[i].timestamp + "</td><td style='display:none;'>"
-					+ trialCalculations[i].capitalAmount + "</td><td style='display:none;'>"
-					+ trialCalculations[i].interestRate + "</td><td style='display:none;'>"
+					+ formatNumber(trialCalculations[i].capitalAmount) + "</td><td style='display:none;'>"
+					+ formatNumber(trialCalculations[i].interestRate) + "</td><td style='display:none;'>"
 					+ trialCalculations[i].noOfMonth + "</td><td style='display:none;'>"
-					+ trialCalculations[i].emi + "</td>";
+					+ formatNumber(trialCalculations[i].emi) + "</td>";
 
 			tr.addEventListener('click', function() {
 				getTrialCalculation(event);
@@ -373,8 +388,8 @@ body {
 	    const trialCalculationNumber = document.getElementById('trialCalculationNumber').value.trim();
 		const trialCalculationId = document.getElementById('trialCalculationId').value.trim();
 	    const stakeholderName = document.getElementById('stakeholderName').value.trim();
-	    const capitalAmount = document.getElementById('capitalAmount').value.trim();
-	    const interestRate = document.getElementById('interestRate').value.trim();
+	    const capitalAmount = unformatNumber(document.getElementById('capitalAmount').value.trim());
+	    const interestRate = unformatNumber(document.getElementById('interestRate').value.trim());
 	    const paymentPeriod = document.getElementById('paymentPeriod').value.trim();
 
 	    const validationErrors = {};
@@ -438,16 +453,16 @@ body {
 		clearErrorMessages('emi-error');
 		var isValid = validateEmiCalculation();
 		if (isValid) {
-			const capitalAmount = document.getElementById('capitalAmount').value;
-			const interestRate = document.getElementById('interestRate').value;
+			const capitalAmount = unformatNumber(document.getElementById('capitalAmount').value);
+			const interestRate = unformatNumber(document.getElementById('interestRate').value);
 			const paymentPeriod = document.getElementById('paymentPeriod').value;
 			var monthlyRate = interestRate / 12 / 100;
 			var emi = (capitalAmount * monthlyRate * Math.pow(1 + monthlyRate,paymentPeriod))/ (Math.pow(1 + monthlyRate, paymentPeriod) - 1);
-			document.getElementById('emi').value = emi.toFixed(2);
+			document.getElementById('emi').value = formatNumber(emi);
 		}
 		
 	}
-	function generateSchedule() {
+/* 	function generateSchedule() {
 		if (document.getElementById('emi').value === "") {
 			alert("Calculate EMI to generate scheudle");
 			return;
@@ -459,6 +474,10 @@ body {
 	    const monthlyRate = interestRate / 12 / 100;
 	    var tableBody = "";
 
+	    var totalInterest = 0;
+        var totalCapital = 0;
+        var totalEmi = 0;
+        
 	    // Formatter for numbers with commas and two decimal places
 	    const formatter = new Intl.NumberFormat('en-US', {
 	        minimumFractionDigits: 2,
@@ -470,6 +489,10 @@ body {
 	        const capital = emi - interest;
 	        const capitalBalance = capitalAmount - capital;
 
+	        totalInterest += interest;
+            totalCapital += capital;
+            totalEmi += emi;
+	        
 	        var row = "<tr><td>" +
 	            i + "</td><td>" +
 	            formatter.format(emi) + "</td><td>" +
@@ -482,8 +505,128 @@ body {
 	        tableBody += row;
 	    }
 
+	    var finalRow = "<tr>"+
+        "<td></td>"+
+        "<td>"+formatter.format(totalEmi)+"</td>"+        
+        "<td>"+formatter.format(totalInterest)+"</td>"+        
+        "<td>"+formatter.format(totalCapital)+"</td>"+        
+        "<td></td>"+        
+        "</tr>";
+        
+        tableBody+= finalRow;
+	    
 	    document.getElementById('scheduleBody').innerHTML = tableBody;
 	    openModal();
+	}
+ */
+ 
+ function formatNumber(value) {
+		if (!isNaN(value)) {
+
+			return parseFloat(value).toLocaleString(undefined, {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+			});
+		}
+		return value;
+	}
+	function emiOnblur() {
+		const emi = formatNumber(document.getElementById('emi').value.trim());
+		document.getElementById('emi').value = emi;
+	}
+	function rateOnblur() {
+		const annualRate = formatNumber(document.getElementById('interestRate').value.trim());
+		document.getElementById('interestRate').value = annualRate;
+	}
+	function capitalAmountOnblur() {
+		const capitalAmount = formatNumber(document.getElementById('capitalAmount').value.trim());
+		document.getElementById('capitalAmount').value = capitalAmount;
+	}
+	function unformatNumber(value) {
+		if (typeof value === "string") {
+			return parseFloat(value.replace(/,/g, '')) || value;
+		}
+		return value;
+	}
+	// Helper function to calculate EMI
+	function calculateEmiValue(capitalAmount, annualRate, paymentPeriod) {
+		const monthlyRate = annualRate / 12 / 100;
+		return (
+			(capitalAmount * monthlyRate * Math.pow(1 + monthlyRate, paymentPeriod)) /
+			(Math.pow(1 + monthlyRate, paymentPeriod) - 1)
+		);
+	}
+	function generateSchedule() {
+	    if (document.getElementById('emi').value === "") {
+			alert("Calculate EMI to generate scheudle");
+			return;
+		}
+	    const scheduleBtn = document.getElementById('scheduleBtn');
+	    scheduleBtn.innerText = "Loading...";
+	    
+
+	    // Allow the button text to update before continuing the processing
+	    setTimeout(() => {
+	        const emivalue = unformatNumber(document.getElementById('emi').value);
+	        var capitalAmount = unformatNumber(document.getElementById('capitalAmount').value);
+	        const interestRate = unformatNumber(document.getElementById('interestRate').value);
+	        const paymentPeriod = unformatNumber(document.getElementById('paymentPeriod').value);
+
+	        if (emivalue === "") {
+	            alert("Calculate the result to generate schedule");
+	            scheduleBtn.innerText = "Schedule"; // Reset the button text
+	            return;
+	        }
+
+	        const emi = calculateEmiValue(capitalAmount, interestRate, paymentPeriod);
+	        const monthlyRate = interestRate / 12 / 100;
+	        var tableBody = "";
+	        
+	        var totalInterest = 0;
+	        var totalCapital = 0;
+	        var totalEmi = 0;
+
+	        // Formatter for numbers with commas and two decimal places
+	        const formatter = new Intl.NumberFormat('en-US', {
+	            minimumFractionDigits: 2,
+	            maximumFractionDigits: 2,
+	        });
+
+	        for (var i = 1; i <= paymentPeriod; i++) {
+	            const interest = capitalAmount * monthlyRate;
+	            const capital = emi - interest;
+	            const capitalBalance = capitalAmount - capital;
+
+	            totalInterest += interest;
+	            totalCapital += capital;
+	            totalEmi += emi;
+	            	
+	            var row = "<tr><td>" +
+	                i + "</td><td>" +
+	                formatter.format(emi) + "</td><td>" +
+	                formatter.format(interest) + "</td><td>" +
+	                formatter.format(capital) + "</td><td>" +
+	                formatter.format(capitalBalance) + "</td></tr>";
+
+	            capitalAmount = capitalBalance;
+
+	            tableBody += row;
+	        }
+
+	        var finalRow = "<tr>"+
+	        "<td></td>"+
+	        "<td>"+formatter.format(totalEmi)+"</td>"+        
+	        "<td>"+formatter.format(totalInterest)+"</td>"+        
+	        "<td>"+formatter.format(totalCapital)+"</td>"+        
+	        "<td></td>"+        
+	        "</tr>";
+	        
+	        tableBody+= finalRow;
+	        
+	        document.getElementById('scheduleBody').innerHTML = tableBody;
+	        openModal();
+	        scheduleBtn.innerText = "Schedule"; // Reset the button text
+	    }, 100); // Slight delay (100ms) to ensure the UI updates
 	}
 
 	function validateSaveTrialCalculation() {
@@ -491,10 +634,10 @@ body {
 	    const trialCalculationNumber = document.getElementById('trialCalculationNumber').value.trim();
 		const trialCalculationId = document.getElementById('trialCalculationId').value.trim();
 	    const stakeholderName = document.getElementById('stakeholderName').value.trim();
-	    const capitalAmount = document.getElementById('capitalAmount').value.trim();
-	    const interestRate = document.getElementById('interestRate').value.trim();
+	    const capitalAmount = unformatNumber(document.getElementById('capitalAmount').value.trim());
+	    const interestRate = unformatNumber(document.getElementById('interestRate').value.trim());
 	    const paymentPeriod = document.getElementById('paymentPeriod').value.trim();
-	    const emi = document.getElementById('emi').value.trim();
+	    const emi = unformatNumber(document.getElementById('emi').value.trim());
 
 	    const validationErrors = {};
 
@@ -563,10 +706,10 @@ body {
 			const stakeholderId = document.getElementById('stakeholderId').value.trim();
 			const trialCalculationNumber = document.getElementById('trialCalculationNumber').value.trim();
 			const trialCalculationId = document.getElementById('trialCalculationId').value.trim();
-		    const capitalAmount = document.getElementById('capitalAmount').value.trim();
-		    const interestRate = document.getElementById('interestRate').value.trim();
+		    const capitalAmount = unformatNumber(document.getElementById('capitalAmount').value.trim());
+		    const interestRate = unformatNumber(document.getElementById('interestRate').value.trim());
 		    const paymentPeriod = document.getElementById('paymentPeriod').value.trim();
-		    const emi = document.getElementById('emi').value.trim();
+		    const emi = unformatNumber(document.getElementById('emi').value.trim());
 		    
 			const xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
@@ -621,6 +764,45 @@ body {
 	    document.getElementById('emi').value="";
 	}
 
+	function printSchedule(divId){
+		 var divContent = document.getElementById(divId);
+		 var trialCalculationNumber = document.getElementById('trialCalculationNumber').value;
+
+		    if (!divContent) {
+		        alert("Content not found!");
+		        return;
+		    }
+
+		    // Open a new window
+		    var printWindow = window.open("", "_blank");
+
+		    // Write the content into the new window
+		    printWindow.document.write(
+		        '<!DOCTYPE html>' +
+		        '<html>' +
+		        '<head>' +
+		        '<title>Print Report</title>' +
+		        '<style>' +
+		        '@page { size: auto;margin: 0;}'+
+		        'body {margin: 30px; font-family: Arial, sans-serif;}'+
+		        'table {width: 100%;border-collapse: collapse;}'+
+		        'table th, table td {text-align: left;padding: 10px;border: 1px solid #ddd;}'+
+		        'table th {background: #204a23;color: #fff;}'+
+		        'table tr:hover {cursor: pointer;background: #eeeeee;}'+
+		        '</style>' +
+		        '</head>' +
+		        '<body>' +
+		        '<h4> TC Number : '+trialCalculationNumber+' </h4>'+
+		        divContent.innerHTML + // Include the content of the div
+		        '</body>' +
+		        '</html>'
+		    );
+
+		    printWindow.document.close(); // Close the document stream
+
+		    // Automatically print the report
+		    printWindow.print();
+	}
 </script>
 </head>
 <body onload="getAllTrialCalculations()">
@@ -634,14 +816,14 @@ body {
 							id="stakeholderId" name="stakeholderId" required
 							readonly="readonly"
 							onclick="clearErrorMessages('stakeholderId-error')">
-						<p id="stakeholderId-error" class="validationerror"></p>
+						<div id="stakeholderId-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Stakeholder Name</label> <input type="text"
 							id="stakeholderName" name="stakeholderName" required
 							readonly="readonly"
 							onclick="clearErrorMessages('stakeholderName-error')">
-						<p id="stakeholderName-error" class="validationerror"></p>
+						<div id="stakeholderName-error" class="validationerror"></div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -650,29 +832,29 @@ body {
 							id="trialCalculationId" name="trialCalculationId"
 							readonly="readonly"
 							onclick="clearErrorMessages('trialCalculationId-error')">
-						<p id="trialCalculationId-error" class="validationerror"></p>
+						<div id="trialCalculationId-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Trial Calculation Number</label> <input type="text"
 							id="trialCalculationNumber" name="trialCalculationNumber"
 							readonly="readonly"
 							onclick="clearErrorMessages('trialCalculationNumber-error')">
-						<p id="trialCalculationNumber-error" class="validationerror"></p>
+						<div id="trialCalculationNumber-error" class="validationerror"></div>
 					</div>
 				</div>
 				<!-- Loan Amount, Annual Interest Rate, and Payment Period -->
 				<div class="form-group">
 					<div class="form-group-element">
-						<label>Capital Amount</label> <input type="number"
+						<label>Capital Amount</label> <input type="text"
 							id="capitalAmount" name="capitalAmount" required
-							onclick="clearErrorMessages('capitalAmount-error')">
-						<p id="capitalAmount-error" class="validationerror"></p>
+							onclick="clearErrorMessages('capitalAmount-error')" onblur="capitalAmountOnblur()">
+						<div id="capitalAmount-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
-						<label>Annual Interest Rate (%)</label> <input type="number"
+						<label>Annual Interest Rate (%)</label> <input type="text"
 							step="0.01" id="interestRate" name="interestRate" required
-							onclick="clearErrorMessages('interestRate-error')">
-						<p id="interestRate-error" class="validationerror"></p>
+							onclick="clearErrorMessages('interestRate-error')" onblur="rateOnblur()">
+						<div id="interestRate-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Payment Period (Months)</label> <select id="paymentPeriod"
@@ -687,7 +869,7 @@ body {
 								}
 							%>
 						</select>
-						<p id="paymentPeriod-error" class="validationerror"></p>
+						<div id="paymentPeriod-error" class="validationerror"></div>
 					</div>
 				</div>
 
@@ -700,13 +882,13 @@ body {
 					<div class="form-group-element">
 						<label>Equated Monthly Installment (EMI)</label> <input
 							type="text" id="emi" name="emi" readonly
-							onclick="clearErrorMessages('emi-error')">
-						<p id="emi-error" class="validationerror"></p>
+							onclick="clearErrorMessages('emi-error')" onblur="emiOnblur()">
+						<div id="emi-error" class="validationerror"></div>
 					</div>
 				</div>
 
 				<div class="form-actions">
-					<button type="button" onclick="generateSchedule()">Schedule</button>
+					<button type="button" id="scheduleBtn" onclick="generateSchedule()">Schedule</button>
 					<button type="button" onclick="updateTrialCalculation()">Save</button>
 				</div>
 			</form>
@@ -741,7 +923,7 @@ body {
 			<div class="modal-content">
 				<span class="close-button" onclick="closeModal()">&times;</span>
 				<h3>Loan Schedule</h3>
-				<div class="schedule-container">
+				<div class="schedule-container" id="schedule-div">
 					<table id="schedule">
 						<thead>
 							<tr>
@@ -756,6 +938,12 @@ body {
 							<!-- Dynamic rows will go here -->
 						</tbody>
 					</table>
+				</div>
+				<div class="modal-btn-div">
+					<button class="modal-btn" type="button"
+						onclick="printSchedule('schedule-div')" id="btn-submit">
+						<i class='bx bx-printer'></i>&nbsp;&nbsp;Print
+					</button>
 				</div>
 			</div>
 		</div>

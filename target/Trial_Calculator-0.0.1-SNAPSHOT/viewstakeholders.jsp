@@ -17,7 +17,7 @@
 
 body {
 	font-family: 'Poppins', sans-serif;
-	font-size: 14px;
+	font-size: 11px;
 }
 
 table {
@@ -27,7 +27,7 @@ table {
 
 table th, table td {
 	text-align: left;
-	padding: 10px;
+	padding: 5px;
 	border: 1px solid #ddd;
 }
 
@@ -145,7 +145,6 @@ table tr:hover {
 	}
 
 	function getStakeHolder(event) {
-		console.log("getStakeHolder(event);");
 
 		const
 		clickedRow = event.currentTarget;

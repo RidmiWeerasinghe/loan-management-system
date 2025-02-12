@@ -36,6 +36,8 @@
 				<value>com.openarc.trialcal.dto.Application</value>
 				<value>com.openarc.trialcal.dto.TrialCalculation</value>
 				<value>com.openarc.trialcal.dto.UserHistory</value>
+				<value>com.openarc.trialcal.dto.ReportGen</value>
+				<value>com.openarc.trialcal.dto.Schedule</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -75,6 +77,9 @@
 		<property name="trialCalBDImpl" ref="trialCalBD" />
 	</bean>
 	<bean id="reportActionBean" class="com.openarc.trialcal.action.ReportAction">
+		<property name="trialCalBDImpl" ref="trialCalBD" />
+	</bean>
+	<bean id="scheduleActionBean" class="com.openarc.trialcal.action.ScheduleAction">
 		<property name="trialCalBDImpl" ref="trialCalBD" />
 	</bean>
 </beans>	

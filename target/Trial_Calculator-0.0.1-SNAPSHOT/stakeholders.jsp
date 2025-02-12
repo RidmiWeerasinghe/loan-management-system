@@ -33,16 +33,17 @@
 }
 
 .form-group {
+	display: flex;
+	flex-direction: row;
 	margin-bottom: 15px;
 	width: 100%;
-	display: flex;
 	flex-wrap: wrap;
+	gap: 20px;
 }
 
 .form-group-element {
 	flex: 1;
 	box-sizing: border-box;
-	padding: 0 10px;
 }
 
 .form-group label {
@@ -54,20 +55,20 @@
 
 .form-group input {
 	width: 97%;
-	padding: 8px; /* Adjusted padding for standard height */
-	font-size: 14px; /* Ensure readable font size */
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	text-align: left; /* Align text to the left */
-}
-
-select, .select-group input {
-	width: 97%;
-	padding: 8px; /* Adjusted padding for select boxes */
+	padding: 8px;
 	font-size: 14px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
-	text-align: left; /* Align text to the left */
+	text-align: left;
+}
+
+.form-group select {
+	width: 100%;
+	padding: 8px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: left;
 }
 
 .form-actions {

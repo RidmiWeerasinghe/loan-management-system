@@ -118,9 +118,6 @@
 	transform: rotate(-180deg);
 }
 
-.li-div i.arrow {
-	transform: rotate(-180deg);
-}
 
 .sidebar.close .nav-links i.arrow {
 	display: none;
@@ -346,16 +343,20 @@
 	display: flex;
 	justify-content: space-between;
 }
+.li-div a{
+
+}
 a:link {
-  text-decoration: none;
+	text-decoration: none;
 }
 </style>
 </head>
 <body onload="setAccessModulesForLoggedInUser()">
 	<div class="sidebar close">
 		<div class="logo-details">
-			<i class='bx bx-calculator'></i> <span class="logo_name"><a  class="logo_name" href="default.jsp" target="contentFrame">Loan
-				Cal</a></span>
+			<i class='bx bx-calculator'></i> <span class="logo_name"><a
+				class="logo_name" href="default.jsp" target="contentFrame">Loan
+					Cal</a></span>
 		</div>
 		<ul class="nav-links">
 			<li id="admin">
@@ -366,7 +367,7 @@ a:link {
 				</div>
 				<ul class="sub-menu">
 					<li><div class="li-div">
-							<a href="#">User Creation</a><i class='bx bxs-chevron-down arrow'></i>
+							<a href="#" style="opacity: 1">User Creation --</a>
 						</div>
 						<ul class="sub-menu">
 							<li id="createuser"><a href="createuser.jsp"
@@ -385,39 +386,39 @@ a:link {
 				</div>
 				<ul class="sub-menu">
 					<li><div class="li-div">
-							<a href="#">Stakeholders</a><i class='bx bxs-chevron-down arrow'></i>
-						</div></li>
-					<ul class="sub-menu">
-						<li id="stakeholders"><a href="stakeholders.jsp"
-							target="contentFrame">Create Stakeholder</a></li>
-							<li id="viewupdatestakeholders"><a href="viewupdatestakeholders.jsp"
-							target="contentFrame">View/Update</a></li>
-					</ul>
+							<a href="#" style="opacity: 1">Stakeholders --</a>
+						</div>
+						<ul class="sub-menu">
+							<li id="stakeholders"><a href="stakeholders.jsp"
+								target="contentFrame">Create Stakeholder</a></li>
+							<li id="viewupdatestakeholders"><a
+								href="viewupdatestakeholders.jsp" target="contentFrame">View/Update</a></li>
+						</ul></li>
+
 					<li><div class="li-div">
-							<a href="#">Trial Calculation</a><i
-								class='bx bxs-chevron-down arrow'></i>
-						</div></li>
-					<ul class="sub-menu">
-					<li id="goalseek"><a href="goalseek.jsp"
-							target="contentFrame">Goal Seek</a></li>
-						<li id="emicalculator"><a href="emicalculator.jsp"
-							target="contentFrame">EMI Calculator </a></li>
-						<li id="viewupdateemicalculator"><a
-							href="viewupdateemicalculator.jsp" target="contentFrame">View/Renew</a></li>
-					</ul>
+							<a href="#" style="opacity: 1">Trial Calculation --</a>
+						</div>
+						<ul class="sub-menu">
+							<li id="goalseek"><a href="goalseek.jsp"
+								target="contentFrame">Goal Seek</a></li>
+							<li id="emicalculator"><a href="emicalculator.jsp"
+								target="contentFrame">EMI Calculator </a></li>
+							<li id="viewupdateemicalculator"><a
+								href="viewupdateemicalculator.jsp" target="contentFrame">View/Renew</a></li>
+						</ul></li>
+
 					<li><div class="li-div">
-							<a href="#">Application Process</a><i
-								class='bx bxs-chevron-down arrow'></i>
-						</div></li>
-					<ul class="sub-menu">
-						<li id="createapplication"><a
-							href="createapplication.jsp" target="contentFrame">Create
-								Application</a></li>
-						<li id="viewapplications"><a href="viewapplications.jsp"
-							target="contentFrame">View Application</a></li>
-						<li id="applicationapprove"><a
-							href="applicationapprove.jsp" target="contentFrame">Approval</a></li>
-					</ul>
+							<a href="#" style="opacity: 1">Application Process --</a>
+						</div>
+						<ul class="sub-menu">
+							<li id="createapplication"><a href="createapplication.jsp"
+								target="contentFrame">Create Application</a></li>
+							<li id="viewapplications"><a href="viewapplications.jsp"
+								target="contentFrame">View Application</a></li>
+							<li id="applicationapprove"><a href="applicationapprove.jsp"
+								target="contentFrame">Approval</a></li>
+						</ul></li>
+
 				</ul>
 			</li>
 			<li id="report">
@@ -427,11 +428,8 @@ a:link {
 					</a> <i class='bx bxs-chevron-down arrow'></i>
 				</div>
 				<ul class="sub-menu">
-					<li><a href="#">Reports</a></li>
-					<ul class="sub-menu">
-						<li id="printReport"><a href="printReport.jsp"
+					<li id="printReport"><a href="printReport.jsp"
 							target="contentFrame">Print Report</a></li>
-					</ul>
 				</ul>
 			</li>
 			<!-- <li id="account">
@@ -471,7 +469,7 @@ a:link {
 		style="width: 100%; height: calc(100vh - 60px); border: none;"
 		name="contentFrame"> </iframe> </section>
 	<script>
-	  let arrow = document.querySelectorAll(".arrow");
+	let arrow = document.querySelectorAll(".arrow");
 	  for (var i = 0; i < arrow.length; i++) {
 	    arrow[i].addEventListener("click", (e)=>{
 	   let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
@@ -486,6 +484,8 @@ a:link {
 	  });
 	  
 	  function logout() {
+		  if (confirm("are you sure you want to log out?") == true) {
+		
 		  const xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState === 4) {
@@ -520,7 +520,8 @@ a:link {
 					+ new Date().getTime(), true);
 			xhttp.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
-			xhttp.send();
+			xhttp.send();	
+			}
 	}
 	  
 	  function setAccessModulesForLoggedInUser() {

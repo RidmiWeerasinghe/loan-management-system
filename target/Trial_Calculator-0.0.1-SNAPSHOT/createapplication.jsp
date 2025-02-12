@@ -19,7 +19,7 @@
 body {
 	font-family: 'Poppins', sans-serif;
 	background-color: #f4f4f4;
-	margin: 0;
+	margin: 50px;
 	padding: 0;
 }
 
@@ -32,23 +32,23 @@ body {
 
 .form-container {
 	background: #fff;
-	padding: 20px;
+	padding: 40px;
 	border-radius: 8px;
 	margin-bottom: 50px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	gap:10px;
 }
 
 .form-group-element {
 	flex: 1;
 	box-sizing: border-box;
-	padding: 0 10px;
 }
 
 .form-group-element-button {
@@ -79,17 +79,13 @@ body {
 	text-align: left; /* Align text to the left */
 }
 
-select, .select-group input {
-	width: 97%;
+select{
+	width: 100%;
 	padding: 8px; /* Adjusted padding for select boxes */
 	font-size: 14px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	text-align: left; /* Align text to the left */
-}
-
-.form-group button {
-	
 }
 
 .form-group .input-inline {
@@ -292,13 +288,13 @@ select, .select-group input {
 								readonly="readonly">
 							<button type="button" onclick="loadStakeholders()">...</button>
 						</div>
-						<p id="stakeholderId-error" class="validationerror"></p>
+						<div id="stakeholderId-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Stakeholder Name</label> <input type="text"
 							id="stakeholderName" name="stakeholderName" required readonly
 							onclick="clearErrorMessages('stakeholderName-error')">
-						<p id="stakeholderName-error" class="validationerror"></p>
+						<div id="stakeholderName-error" class="validationerror"></div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -312,14 +308,14 @@ select, .select-group input {
 							<button type="button"
 								onclick="loadStakeholderTrialCalculations(); clearErrorMessages('trialCalculationId-error')">...</button>
 						</div>
-						<p id="trialCalculationId-error" class="validationerror"></p>
+						<div id="trialCalculationId-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Trial Calculation Number</label> <input type="text"
 							id="trialCalculationNumber" name="trialCalculationNumber"
 							required readonly
 							onclick="clearErrorMessages('trialCalculationNumber-error')">
-						<p id="trialCalculationNumber-error" class="validationerror"></p>
+						<div id="trialCalculationNumber-error" class="validationerror"></div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -329,7 +325,7 @@ select, .select-group input {
 							value="Pending"
 							onclick="clearErrorMessages('applicationStatus-error')">
 					</div>
-					<p id="applicationStatus-error" class="validationerror"></p>
+					<div id="applicationStatus-error" class="validationerror"></div>
 				</div>
 
 				<!-- Calculate and Clear Buttons -->
@@ -343,7 +339,7 @@ select, .select-group input {
 						<label>Application Number</label> <input type="text"
 							id="applicationNumber" name="applicationNumber" readonly>
 					</div>
-					<p id="applicationStatus-error" class="validationerror"></p>
+					<div id="applicationStatus-error" class="validationerror"></div>
 				</div>
 				<div class="form-actions">
 					<button type="button" onclick="clearForm()">Clear</button>

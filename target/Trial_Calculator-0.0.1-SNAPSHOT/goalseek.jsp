@@ -39,10 +39,33 @@ body {
 }
 
 .form-group {
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
+	width: 100%;
+}
+.form-group label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+	text-align: left;
+}
+.form-group select{
+	width: 100%;
+	padding: 8px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: left;
+}
+
+.form-group input{
+	width: 97%;
+	padding: 8px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: left;
 }
 
 .form-group-element {
@@ -186,6 +209,22 @@ body {
 .close-button:hover, .close-button:focus {
 	color: black;
 	text-decoration: none;
+}
+
+.modal-btn {
+	margin-top: 20px;
+	padding: 10px 20px;
+	background: #439c47;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 90px;
+}
+
+.modal-btn-div {
+	display: flex;
+	justify-content: flex-end;
 }
 </style>
 <script>
@@ -372,7 +411,7 @@ function validatePeriodCal() {
 	if (!capitalAmount) {
 		validationErrors["capitalAmount-error"] = "Capital Amount is required.";
 	} else if (isNaN(capitalAmount) || parseFloat(capitalAmount) <= 0) {
-		validationErrors["capitalAmount-error"] = "Capital Amount must be a positive number.";
+		validationErrors["capitalAmount-error"] = "Must be a positive number.";
 	}
 
 	// Validate Interest Rate (e.g., non-empty, numeric, between 0 and
@@ -432,6 +471,10 @@ function generateSchedule() {
         const emi = calculateEmiValue(capitalAmount, interestRate, paymentPeriod);
         const monthlyRate = interestRate / 12 / 100;
         var tableBody = "";
+        
+        var totalInterest = 0;
+        var totalCapital = 0;
+        var totalEmi = 0;
 
         // Formatter for numbers with commas and two decimal places
         const formatter = new Intl.NumberFormat('en-US', {
@@ -444,6 +487,10 @@ function generateSchedule() {
             const capital = emi - interest;
             const capitalBalance = capitalAmount - capital;
 
+            totalInterest += interest;
+            totalCapital += capital;
+            totalEmi += emi;
+            	
             var row = "<tr><td>" +
                 i + "</td><td>" +
                 formatter.format(emi) + "</td><td>" +
@@ -456,6 +503,16 @@ function generateSchedule() {
             tableBody += row;
         }
 
+        var finalRow = "<tr>"+
+        "<td></td>"+
+        "<td>"+formatter.format(totalEmi)+"</td>"+        
+        "<td>"+formatter.format(totalInterest)+"</td>"+        
+        "<td>"+formatter.format(totalCapital)+"</td>"+        
+        "<td></td>"+        
+        "</tr>";
+        
+        tableBody+= finalRow;
+        
         document.getElementById('scheduleBody').innerHTML = tableBody;
         openModal();
         scheduleBtn.innerText = "Schedule"; // Reset the button text
@@ -539,11 +596,11 @@ function calculatePaymentPeriod(emi, capitalAmount, annualRate) {
 }
 
 
-// Function to calculate interest rate iteratively
+// interest rate
 function calculateInterestRate(emi, capitalAmount, paymentPeriod) {
-	let low = 0; // Lower bound for annual interest rate
-	let high = 100; // Upper bound for annual interest rate
-	const tolerance = 0.0001; // Precision tolerance for the result
+	let low = 0; // Lower bound 
+	let high = 100; // Upper bound 
+	const tolerance = 0.0001; // Precision tolerance
 
 	while (high - low > tolerance) {
 		const mid = (low + high) / 2;
@@ -560,7 +617,9 @@ function calculateInterestRate(emi, capitalAmount, paymentPeriod) {
 	return (low + high) / 2;
 	// Approximate annual interest rate
 }
-
+function disableEmiInput(){
+	document.getElementById("emi").disabled = true;
+}
 function disableFields() {
 	// clearForm();
 	const type = document.getElementById('type').value;
@@ -660,9 +719,46 @@ function calculate() {
 	}
 }
 
+function printSchedule(divId){
+	 var divContent = document.getElementById(divId);
+
+	    if (!divContent) {
+	        alert("Content not found!");
+	        return;
+	    }
+
+	    // Open a new window
+	    var printWindow = window.open("", "_blank");
+
+	    // Write the content into the new window
+	    printWindow.document.write(
+	        '<!DOCTYPE html>' +
+	        '<html>' +
+	        '<head>' +
+	        '<title>Print Report</title>' +
+	        '<style>' +
+	        'table {width: 100%;border-collapse: collapse;}'+
+	        'table th, table td {text-align: left;padding: 10px;border: 1px solid #ddd;}'+
+	        'table th {background: #204a23;color: #fff;}'+
+	        'table tr:hover {cursor: pointer;background: #eeeeee;}'+
+	        '</style>' +
+	        '</head>' +
+	        '<body>' +
+	        '<h4> Loan Schedule </h4>'+
+	        divContent.innerHTML + // Include the content of the div
+	        '</body>' +
+	        '</html>'
+	    );
+
+	    printWindow.document.close(); // Close the document stream
+
+	    // Automatically print the report
+	    printWindow.print();
+	    closeModal();
+}
 </script>
 </head>
-<body>
+<body onload="disableEmiInput()">
 	<div class="home-content">
 		<h2>Goal Seek</h2>
 		<div class="form-container">
@@ -677,7 +773,7 @@ function calculate() {
 							<option value="capital">Capital Amount</option>
 							<option value="period">Payment Period</option>
 						</select>
-						<p id="type-error" class="validationerror"></p>
+						<div id="type-error" class="validationerror"></div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -686,14 +782,14 @@ function calculate() {
 							id="capitalAmount" name="capitalAmount" required
 							onclick="clearErrorMessages('capitalAmount-error')"
 							onblur="capitalAmountOnblur()">
-						<p id="capitalAmount-error" class="validationerror"></p>
+						<div id="capitalAmount-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Annual Interest Rate (%)</label> <input type="number"
 							step="0.01" id="interestRate" name="interestRate" required
 							onclick="clearErrorMessages('interestRate-error')"
 							onblur="rateOnblur()">
-						<p id="interestRate-error" class="validationerror"></p>
+						<div id="interestRate-error" class="validationerror"></div>
 					</div>
 					<div class="form-group-element">
 						<label>Payment Period (Months)</label> <select id="paymentPeriod"
@@ -709,7 +805,7 @@ function calculate() {
 								}
 							%>
 						</select>
-						<p id="paymentPeriod-error" class="validationerror"></p>
+						<div id="paymentPeriod-error" class="validationerror"></div>
 					</div>
 
 				</div>
@@ -719,7 +815,7 @@ function calculate() {
 						<label>Equated Monthly Installment (EMI)</label> <input
 							type="text" id="emi" name="emi" onblur="emiOnblur()"
 							onclick="clearErrorMessages('emi-error')">
-						<p id="emi-error" class="validationerror"></p>
+						<div id="emi-error" class="validationerror"></div>
 					</div>
 				</div>
 
@@ -736,7 +832,7 @@ function calculate() {
 			<div class="modal-content">
 				<span class="close-button" onclick="closeModal()">&times;</span>
 				<h3>Loan Schedule</h3>
-				<div class="schedule-container">
+				<div class="schedule-container" id="schedule-div">
 					<table id="schedule">
 						<thead>
 							<tr>
@@ -751,6 +847,12 @@ function calculate() {
 							<!-- Dynamic rows will go here -->
 						</tbody>
 					</table>
+				</div>
+				<div class="modal-btn-div">
+					<button class="modal-btn" type="button"
+						onclick="printSchedule('schedule-div')" id="btn-submit">
+						<i class='bx bx-printer'></i>&nbsp;&nbsp;Print
+					</button>
 				</div>
 			</div>
 		</div>

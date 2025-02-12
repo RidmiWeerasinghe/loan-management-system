@@ -8,9 +8,7 @@ import com.openarc.trialcal.bd.impl.TrialCalBDImpl;
 import com.openarc.trialcal.dto.Address;
 import com.openarc.trialcal.dto.PostalCode;
 import com.openarc.trialcal.dto.Stakeholder;
-import com.openarc.trialcal.dto.User;
 import com.opensymphony.xwork2.ActionSupport;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 
 public class StakeholderAction extends ActionSupport {
 	private TrialCalBDImpl trialCalBDImpl;

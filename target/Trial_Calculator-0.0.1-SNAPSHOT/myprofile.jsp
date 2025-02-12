@@ -345,7 +345,8 @@ table tr:hover {
 							if (response.result.success === true) {
 									if (response.result.successmsg) {
 										alert(response.result.successmsg);
-										clearInputFields();
+										alert("login to system using your new credentials");
+										window.top.location.href = "/Trial_Calculator/login.jsp";
 									}
 							}
 							
@@ -382,7 +383,43 @@ table tr:hover {
 			document.getElementById('confirmPassword-error').innerHTML="Password and confirm password does not match";
 		} */
 	}
+	 function logout() {
+		  const xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState === 4) {
+					if (this.status === 200) {
+						try {
+							const response = JSON.parse(this.responseText);
+							console.log("logout()");
+							console.log(response.result);
 	
+							if (response.result.error) {
+								alert(response.result.error);
+							}
+	
+							if (response.result.success === true) {
+								alert(response.result.successmsg);
+								window.location.href = "/Trial_Calculator/login.jsp";
+							}
+						} catch (e) {
+							console.error('Invalid response:', e);
+							alert('An error occurred while processing the server response.');
+						}
+					} else {
+						console.error('Request failed with status:',
+								this.status);
+						alert('Failed to Login. Please try again.');
+					}
+				}
+			};
+	
+			// Open and send the POST request
+			xhttp.open("POST", "/Trial_Calculator/userAction-logout?t="
+					+ new Date().getTime(), true);
+			xhttp.setRequestHeader("Content-Type",
+					"application/x-www-form-urlencoded");
+			xhttp.send();
+	}
 </script>
 
 </html>

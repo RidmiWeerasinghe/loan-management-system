@@ -80,3 +80,50 @@ function getDetailsFromNIC(nic) {
 
     return { dateOfBirth: dob, gender: gender };
 }
+
+function printSchedule(divId){
+	 var divContent = document.getElementById(divId);
+
+	    if (!divContent) {
+	        alert("Content not found!");
+	        return;
+	    }
+
+	    // Open a new window
+	    var printWindow = window.open("", "_blank");
+
+	    // Write the content into the new window
+	    printWindow.document.write(
+	        '<!DOCTYPE html>' +
+	        '<html>' +
+	        '<head>' +
+	        '<title>Print Report</title>' +
+	        '<style>' +
+	        '.schedule-container table {width: 100%;border-collapse: collapse;}'+
+	        '.schedule-container table th, table td {text-align: left;padding: 10px;border: 1px solid #ddd;}'+
+	        '.schedule-container table th {background: #204a23;color: #fff;}'+
+	        '.schedule-container table tr:hover {cursor: pointer;background: #eeeeee;}'+
+	        '</style>' +
+	        '</head>' +
+	        '<body>' +
+	        '<h2> Loan Schedule </h2>'+
+	        divContent.innerHTML + // Include the content of the div
+	        '</body>' +
+	        '</html>'
+	    );
+
+	    printWindow.document.close(); // Close the document stream
+
+	    // Automatically print the report
+	    printWindow.print();
+}
+function formatNumber(value) {
+	if (!isNaN(value)) {
+
+		return parseFloat(value).toLocaleString(undefined, {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		});
+	}
+	return value;
+}

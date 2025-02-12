@@ -19,10 +19,14 @@
 .home-content {
 	padding: 20px;
 	background-color: #f4f4f4;
-	font-family: 'Poppins', sans-serif;
 	font-size: 14px;
 }
-
+body {
+	font-family: 'Poppins', sans-serif;
+	background-color: #f4f4f4;
+	margin: 40px;
+	padding: 0;
+}
 .form-container {
 	background: #fff;
 	padding: 20px;
@@ -197,7 +201,7 @@ table tr:hover {
 						<div class="select-group">
 							<select id="status" name="status" required>
 								<option value="A" selected="selected">Active</option>
-								<option value="D">Disabled</option>
+								<option value="D">Inactive</option>
 							</select>
 						</div>
 					</div>
@@ -325,6 +329,9 @@ function search(){
             if (!confirmPassword) {
                 validationErrors["confirmPassword-error"] = "Password confirmation is required";
             }
+		}
+		if (confirmPassword !== password) {
+            validationErrors["confirmPassword-error"] = "Confirm password mismatch";
 		}
 		 if (groupId !== undefined) {
 		        if (!groupId) {
@@ -525,7 +532,7 @@ function search(){
 		};
 
 		// Open and send the POST request
-		xhttp.open("POST", "/Trial_Calculator/userAction-getAllUsers?t="
+		xhttp.open("POST", "/Trial_Calculator/adminAction-getAllUsers?t="
 				+ new Date().getTime(), true);
 		xhttp.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded");

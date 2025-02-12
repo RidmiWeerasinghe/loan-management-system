@@ -150,6 +150,60 @@ function validateUserLogin() {
     }
 }
 
+/* function login() {
+    const isValid = validateUserLogin();
+    if (isValid) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        // Generate a unique identifier for the request
+        const requestToken = new Date().getTime(); // or use a UUID generator
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    try {
+                        const response = JSON.parse(this.responseText);
+
+                        console.log("login()");
+                        console.log(response.result);
+
+                        // Validate if the response corresponds to the current request
+                        if (response.result.requestToken !== requestToken) {
+                            console.error('Response token does not match the request token.');
+                            alert('An error occurred while processing the server response.');
+                            return;
+                        }
+
+                        if (response.result.error) {
+                            alert(response.result.error);
+                        } else {
+                            if (response.result.success === true && response.result.currentUser !== null) {
+                                alert(response.result.successmsg);
+                                window.location.href = "/Trial_Calculator/home.jsp";
+                            }
+                        }
+
+                    } catch (e) {
+                        console.error('Invalid response:', e);
+                        alert('An error occurred while processing the server response.');
+                    }
+                } else {
+                    console.error('Request failed with status:', this.status);
+                    alert('Failed to Login. Please try again.');
+                }
+            }
+        };
+
+        // Open and send the POST request
+        xhttp.open("POST", "/Trial_Calculator/userAction-login?t=" + requestToken, true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        const data = "user.username=" + username + "&user.password=" + password + "&requestToken=" + requestToken;
+        xhttp.send(data);
+    }
+}
+ */
 	function login() {
 		var isValid = validateUserLogin();
 		if (isValid) {

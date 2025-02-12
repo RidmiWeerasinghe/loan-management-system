@@ -33,7 +33,12 @@
 			<result name="input" type="json">result</result>
 			<param name="scope">request</param>
 		</action>
-		
+		<action name="adminAction-getAllUsers" class="adminActionBean" method="getAllUsers">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
 		<!-- user action -->
 		
 		<action name="userAction-createUser" class="userActionBean" method="createUser">
@@ -60,12 +65,12 @@
 			<result name="input" type="json">result</result>
 			<param name="scope">request</param>
 		</action>
-		<action name="userAction-getAllUsers" class="userActionBean" method="getAllUsers">
+		<!-- <action name="userAction-getAllUsers" class="userActionBean" method="getAllUsers">
 			<result name="success" type="json">result</result>
 			<result name="error" type="json">result</result>
 			<result name="input" type="json">result</result>
 			<param name="scope">request</param>
-		</action>
+		</action> -->
 		<action name="userAction-updateUserStatus" class="userActionBean" method="updateUserStatus">
 			<result name="success" type="json">result</result>
 			<result name="error" type="json">result</result>
@@ -216,7 +221,16 @@
 			<result name="input" type="json">result</result>
 			<param name="scope">request</param>
 		</action> -->
-		<action name="reportAction-generateReport" class="reportActionBean" method="test">
+		<action name="reportAction-generateReport" class="reportActionBean" method="generateReport">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		
+		<!-- schedule action -->
+		
+		<action name="scheduleAction-saveSchedule" class="scheduleActionBean" method="saveSchedule">
 			<result name="success" type="json">result</result>
 			<result name="error" type="json">result</result>
 			<result name="input" type="json">result</result>
