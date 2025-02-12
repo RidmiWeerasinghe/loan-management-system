@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	xmlns:context="http://www.springframework.org/schema/context">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/trialcaldb" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="20" />
+		<property name="maxIdle" value="10" />
+		<property name="minIdle" value="5" />
+		<property name="maxWait" value="30000" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+	</bean>
+
+
+	<bean id="hibernateAnnotatedSessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.openarc.trialcal.dto.UserGroup</value>
+				<value>com.openarc.trialcal.dto.User</value>
+				<value>com.openarc.trialcal.dto.Stakeholder</value>
+				<value>com.openarc.trialcal.dto.PostalCode</value>
+				<value>com.openarc.trialcal.dto.Address</value>
+				<value>com.openarc.trialcal.dto.Application</value>
+				<value>com.openarc.trialcal.dto.TrialCalculation</value>
+				<value>com.openarc.trialcal.dto.UserHistory</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- DAO beans -->
+
+	<bean id="trialCalDAO" class="com.openarc.trialcal.dao.impl.TrialCalDAOImpl">
+		<property name="sessionFactory" ref="hibernateAnnotatedSessionFactory" />
+	</bean>
+
+	<!-- BD beans -->
+	<bean id="trialCalBD" class="com.openarc.trialcal.bd.impl.TrialCalBDImpl">
+		<property name="trialCalDAOImpl" ref="trialCalDAO" />
+	</bean>
+
+	<!-- Action beans -->
+	<bean id="adminActionBean" class="com.openarc.trialcal.action.AdminAction">
+		<property name="trialCalBDImpl" ref="trialCalBD" />
+	</bean>
+	<bean id="userActionBean" class="com.openarc.trialcal.action.UserAction">
+		<property name="trialCalBDImpl" ref="trialCalBD" />
+	</bean>
+	<bean id="stakeholderActionBean" class="com.openarc.trialcal.action.StakeholderAction">
+		<property name="trialCalBDImpl" ref="trialCalBD" />
+	</bean>
+	<bean id="trialCalculationActionBean" class="com.openarc.trialcal.action.TrialCalculationAction">
+		<property name="trialCalBDImpl" ref="trialCalBD" />
+	</bean>
+	<bean id="applicationActionBean" class="com.openarc.trialcal.action.ApplicationAction">
+		<property name="trialCalBDImpl" ref="trialCalBD" />
+	</bean>
+	<bean id="reportActionBean" class="com.openarc.trialcal.action.ReportAction">
+		<property name="trialCalBDImpl" ref="trialCalBD" />
+	</bean>
+</beans>	

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.objectFactory" value="spring" />
+
+	<package name="default" namespace="/"
+		extends="struts-default,json-default, spring-default">
+
+		<!-- admin action -->
+		
+		<action name="adminAction-createUserGroup" class="adminActionBean" method="createUserGroup">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="adminAction-getAllUserGroups" class="adminActionBean" method="getAllUserGroups">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="adminAction-updateUserGroup" class="adminActionBean" method="updateUserGroup">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="adminAction-getUserGroupById" class="adminActionBean" method="getUserGroupById">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		
+		<!-- user action -->
+		
+		<action name="userAction-createUser" class="userActionBean" method="createUser">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="userAction-updateUser" class="userActionBean" method="updateUser">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="userAction-login" class="userActionBean" method="login">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="userAction-logout" class="userActionBean" method="logout">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="userAction-getAllUsers" class="userActionBean" method="getAllUsers">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="userAction-updateUserStatus" class="userActionBean" method="updateUserStatus">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="userAction-isOldPasswordCorrect" class="userActionBean" method="isOldPasswordCorrect">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="userAction-updatePassword" class="userActionBean" method="updatePassword">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="userAction-isNewPasswordValid" class="userActionBean" method="isNewPasswordValid">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		
+		<!-- stakeholder action -->
+		
+		<action name="stakeholderAction-createStakeholder" class="stakeholderActionBean" method="createStakeholder">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="stakeholderAction-updateStakeholder" class="stakeholderActionBean" method="updateStakeholder">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="stakeholderAction-getAllStakeholders" class="stakeholderActionBean" method="getAllStakeholders">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="stakeholderAction-getAllPostalCodes" class="stakeholderActionBean" method="getAllPostalCodes">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="stakeholderAction-getAddressByAddressId" class="stakeholderActionBean" method="getAddressByAddressId">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="stakeholderAction-getStakeholderByStakeholderId" class="stakeholderActionBean" method="getStakeholderByStakeholderId">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		
+		<!-- Trial calculation action -->
+		
+		<action name="trialCalculationAction-createTrialCalculation" class="trialCalculationActionBean" method="createTrialCalculation">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="trialCalculationAction-getTrialCalculationById" class="trialCalculationActionBean" method="getTrialCalculationById">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="trialCalculationAction-getAllTrialCalculations" class="trialCalculationActionBean" method="getAllTrialCalculations">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="trialCalculationAction-getAllTrialCalculationsByStakeHolderId" class="trialCalculationActionBean" method="getAllTrialCalculationsByStakeHolderId">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="trialCalculationAction-updateTrialCalculation" class="trialCalculationActionBean" method="updateTrialCalculation">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="trialCalculationAction-getAllTrialCalculationsWithoutApplicationsByStakeHolderId" class="trialCalculationActionBean" method="getAllTrialCalculationsWithoutApplicationsByStakeHolderId">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		
+		<!-- Application action -->
+		
+		<action name="applicationAction-createApplication" class="applicationActionBean" method="createApplication">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="tapplicationActionBean-updateApplication" class="applicationActionBean" method="updateApplication">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="applicationActionBean-getAllPendingApplication" class="applicationActionBean" method="getAllPendingApplication">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="applicationActionBean-getApplicationByApplicationId" class="applicationActionBean" method="getApplicationByApplicationId">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="applicationActionBean-updateApplicationStatus" class="applicationActionBean" method="updateApplicationStatus">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		<action name="applicationActionBean-getAllApplications" class="applicationActionBean" method="getAllApplications">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+		
+		<!-- Report action -->
+		
+	<!-- 	<action name="reportAction-generateReport" class="reportActionBean" method="generateReport">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action> -->
+		<action name="reportAction-generateReport" class="reportActionBean" method="test">
+			<result name="success" type="json">result</result>
+			<result name="error" type="json">result</result>
+			<result name="input" type="json">result</result>
+			<param name="scope">request</param>
+		</action>
+	</package>
+</struts>
