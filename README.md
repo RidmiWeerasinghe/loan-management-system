@@ -48,6 +48,3 @@ A Loan Management System built with **Java (Spring, Hibernate, Struts)** followi
 ## License
 This project is open-source. Feel free to modify and enhance it.
 
-## Contact
-For any queries, reach out via [GitHub](https://github.com/your-username).
-
