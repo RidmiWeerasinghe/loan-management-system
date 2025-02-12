@@ -47,7 +47,7 @@ A Loan Management System built with **Java (Spring, Hibernate, Struts)** followi
    ```sql
    CREATE DATABASE trialcaldb;
    ```
-6. Configure the database connection in `application.properties` (if needed).
+6. Configure the database connection in `spring-config.xml` (if needed).
 7. Run the project. Hibernate will automatically generate the required tables.
 
 ## Usage
